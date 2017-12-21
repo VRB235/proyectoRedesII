@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servidorcentral;
+package cliente;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.Observable;
 
 /**
  *

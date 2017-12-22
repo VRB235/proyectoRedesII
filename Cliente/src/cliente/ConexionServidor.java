@@ -5,14 +5,13 @@
  */
 package cliente;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,57 +19,68 @@ import java.util.logging.Logger;
  */
 public class ConexionServidor extends Thread {
     Socket _socket;
-    ObjectOutputStream _ObjetoSaliente;
-    ObjectInputStream _ObjetoEntrante;
     String _ip;
     int _puerto;
-    Packete _packete;
     DataInputStream _dis;
     DataOutputStream _dos;
+    String _comando;
+    ManejadorOrden _manejadorOrden;
     
-    public ConexionServidor(String ip, int puerto) {
+    public ConexionServidor(String ip, int puerto, String comando) {
         this._ip = ip;
         this._puerto = puerto;
-        _packete = new Packete(1, "HOLA", null);
+        this._comando = comando;
+        this._manejadorOrden = new ManejadorOrden();
     }
     @Override
     public void run() {
-        try {/*
-            _socket = new Socket(_ip, _puerto);
-            _dos = new DataOutputStream(_socket.getOutputStream());
-            _dis = new DataInputStream(_socket.getInputStream());
-            _dos.writeUTF("hola");
-            String respuesta="";
-            respuesta = _dis.readUTF();
-            System.out.println(respuesta);
+        
+        try {
+            
+            if(_manejadorOrden.accion(_comando)!=null){
+                
+                _socket = new Socket(_ip, _puerto);
+                _dos = new DataOutputStream(_socket.getOutputStream());
+                _dis = new DataInputStream(_socket.getInputStream());
+            
+                if(!_manejadorOrden.accion(_comando).equals("0:exit"))
+                {
+                    
+                    _dos.writeUTF(_manejadorOrden.accion(_comando));
+                    System.out.println(_dis.readUTF());
+                    
+                }else{
+                    
+                    desconectar();
+                    
+                }
+                
+            }
+            
+        } catch (IOException ex) {
+            
+            System.out.println("Error con los Sockets "+ex.getMessage());
+            
+        }
+        
+    }
+    
+    public void desconectar(){
+        
+        try {
+            
             _dis.close();
             _dos.close();
-            _socket.close();*/
-            _socket = new Socket(_ip, _puerto);
-            _ObjetoSaliente = new ObjectOutputStream(_socket.getOutputStream());
-            _ObjetoEntrante = new ObjectInputStream(_socket.getInputStream());
-            Object _obj = null;
-            Object _objS = null;
-            if(_packete instanceof Object)
-            {
-                _obj = (Object)_packete;
-                _ObjetoSaliente.flush();
-                _ObjetoSaliente.writeObject(_obj);
-                
-                _objS = _ObjetoEntrante.readObject();
-                if (_objS instanceof Packete){
-                    _packete = (Packete) _objS;
-                    System.out.println(_packete.getMensaje());
-                }
-            }
-            _ObjetoEntrante.close();
-            _ObjetoSaliente.close();
             _socket.close();
-        } catch (IOException ex) {
-            System.out.println("Error con los Sockets "+ex.getMessage());
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Error con las clases "+ex.getMessage());
+            System.out.println("Conexion cerrada");
+            
+        } catch (IOException e) {
+            
+            System.out.println("Error cerrando conexion: "+e.getStackTrace());
+            
         }
+        
     }
+    
 }
 

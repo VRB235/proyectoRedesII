@@ -7,7 +7,6 @@ package cliente;
 
 import java.awt.Event;
 import javax.swing.DefaultListModel;
-import javax.swing.ListModel;
 
 /**
  *
@@ -17,8 +16,10 @@ public class Consola extends javax.swing.JFrame {
 
     String _ip;
     int _puerto;
-    DefaultListModel<String> _listModel = new DefaultListModel<String>();
+    DefaultListModel<String> _listModel = new DefaultListModel<>();
     ConexionServidor _conexionServidor;
+    String _comando;
+    String _usuario;
     
     /**
      * Creates new form Consola
@@ -27,9 +28,11 @@ public class Consola extends javax.swing.JFrame {
         initComponents();
     }
     
-    public Consola(String ip, int puerto){
+    public Consola(String ip, int puerto, String usuario){
         initComponents();
-        _conexionServidor = new ConexionServidor(ip, puerto);
+        this._ip = ip;
+        this._puerto = puerto;
+        this._usuario = usuario;
     }
 
     /**
@@ -94,8 +97,9 @@ public class Consola extends javax.swing.JFrame {
         if (evt.getKeyCode()==Event.ENTER) {
             _listModel.addElement("> "+jTextField_comando.getText());
             jList_comandos.setModel(_listModel);
+            _comando = jTextField_comando.getText();
             jTextField_comando.setText("");
-            
+            _conexionServidor = new ConexionServidor(_ip, _puerto,_comando);
             _conexionServidor.start();
         }
     }//GEN-LAST:event_jTextField_comandoKeyPressed

@@ -50,11 +50,5 @@ public class Packete implements Serializable{
 
     public void setFile(File _file) {
         this._file = _file;
-    }
-    
-    
-    
-    
-    
-    
+    } 
 }

@@ -20,7 +20,6 @@ public class InicializadorServidor {
     int _maximoConexiones = 10;
     ServerSocket _serverSocket;
     Socket _socket;
-    Packete _packete;
     ConexionCliente _conexionCliente;
     
     public InicializadorServidor (){
@@ -33,43 +32,56 @@ public class InicializadorServidor {
         this._ip = ip;
         this._serverSocket = null; 
         this._socket = null;
-        this._packete = new Packete();
         
     }
 
-        public void iniciar(){
-            try {
+    public void iniciar(){
+        try {
                 
-            _serverSocket = new ServerSocket(_puerto, _maximoConexiones);
+        _serverSocket = new ServerSocket(_puerto, _maximoConexiones);
             
-            while (true) {
-                System.out.println("Servidor a la espera de conexiones.");
-                _socket = _serverSocket.accept();
-                System.out.println("Cliente con la IP: "+_socket.getInetAddress().getHostName()+" conectado");
+        while (true) {
                 
-                 _conexionCliente = new ConexionCliente(_socket, _packete);
-                _conexionCliente.start();
+            System.out.println("Servidor a la espera de conexiones.");
+            _socket = _serverSocket.accept();
+            System.out.println("Cliente con la IP: "+_socket.getInetAddress().getHostName()+" conectado");
                 
-            }
-            } catch (IOException ex) {
-                System.out.println("Error: "+ex.getMessage());
-            } finally{
-                try {
-                    _socket.close();
-                    _serverSocket.close();
+            _conexionCliente = new ConexionCliente(_socket);
+            _conexionCliente.start();
+                
+        }
+        } catch (IOException ex) {
+                
+            System.out.println("Error: "+ex.getMessage());
+                
+        } finally{
+                
+            try {
+                    
+                _socket.close();
+                _serverSocket.close();
+                    
                 } catch (IOException ex) {
+                    
                     System.out.println("Error al cerrar el servidor: "+ex.getMessage());
+                    
                 }
+                
             }   
+            
         }
         
         public void cerrar (){
             
             try {
+                
                     _socket.close();
                     _serverSocket.close();
+                    
                 } catch (IOException ex) {
+                    
                     System.out.println("Error al cerrar el servidor: "+ex.getMessage());
+                    
                 }
             
         }

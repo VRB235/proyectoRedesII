@@ -19,7 +19,9 @@ public class ConfiguracionSocket extends javax.swing.JFrame {
      * Creates new form ConfiguracionSocket
      */
     public ConfiguracionSocket() {
+        
         initComponents();
+        
     }
 
     /**
@@ -119,9 +121,9 @@ public class ConfiguracionSocket extends javax.swing.JFrame {
             
             _inicializadorServidor = new InicializadorServidor
             (jTextField_ip.getText(), Integer.parseInt(jTextField_puerto.getText()));
-            _inicializadorServidor.iniciar();
             jButton_conectar.setEnabled(false);
             jButton_desconectar.setEnabled(true);
+            _inicializadorServidor.iniciar();
             
         } catch (NumberFormatException e) {
             

@@ -21,17 +21,31 @@ public class ConexionServidor extends Thread {
     Socket _socket;
     String _ip;
     int _puerto;
+    String _ipCliente;
+    int _puertoCliente;
     DataInputStream _dis;
     DataOutputStream _dos;
     String _comando;
     ManejadorOrden _manejadorOrden;
     
-    public ConexionServidor(String ip, int puerto, String comando) {
+    /**
+     * Constrcutor de la Conexion al Servidor
+     * @param ip
+     * @param puerto
+     * @param comando 
+     */
+    public ConexionServidor(String ip, int puerto, String comando, String ipCliente, int puertoCliente) {
         this._ip = ip;
         this._puerto = puerto;
         this._comando = comando;
         this._manejadorOrden = new ManejadorOrden();
+        this._ipCliente = ipCliente;
+        this._puertoCliente = puertoCliente;
     }
+    
+    /**
+     * Metodo para conectar y enviar los comandos al servidor
+     */
     @Override
     public void run() {
         
@@ -65,6 +79,9 @@ public class ConexionServidor extends Thread {
         
     }
     
+    /**
+     * Metodo para desconectar el socket
+     */
     public void desconectar(){
         
         try {

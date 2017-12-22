@@ -20,6 +20,8 @@ public class Consola extends javax.swing.JFrame {
     ConexionServidor _conexionServidor;
     String _comando;
     String _usuario;
+    String _ip_cliente;
+    int _puerto_cliente;
     
     /**
      * Creates new form Consola
@@ -28,11 +30,13 @@ public class Consola extends javax.swing.JFrame {
         initComponents();
     }
     
-    public Consola(String ip, int puerto, String usuario){
+    public Consola(String ip, int puerto, String usuario, String ipCliente, int puertoCliente){
         initComponents();
         this._ip = ip;
         this._puerto = puerto;
         this._usuario = usuario;
+        this._ip_cliente = ipCliente;
+        this._puerto_cliente = puertoCliente;
     }
 
     /**
@@ -99,7 +103,7 @@ public class Consola extends javax.swing.JFrame {
             jList_comandos.setModel(_listModel);
             _comando = jTextField_comando.getText();
             jTextField_comando.setText("");
-            _conexionServidor = new ConexionServidor(_ip, _puerto,_comando);
+            _conexionServidor = new ConexionServidor(_ip, _puerto,_comando,_ip_cliente,_puerto_cliente);
             _conexionServidor.start();
         }
     }//GEN-LAST:event_jTextField_comandoKeyPressed

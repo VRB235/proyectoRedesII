@@ -14,12 +14,21 @@ public class ManejadorOrden {
     String _mensaje;
     String[] _mensajeArreglo;
     
+    /**
+     * Constructor del manejador de Ordenes
+     * @param mensaje 
+     */
     public ManejadorOrden(String mensaje){
         
         this._mensaje = mensaje;
         this._mensajeArreglo = mensaje.split(":");
         
     }
+    
+    /**
+     * Metodo para manejar las acciones realizadas por el servidor
+     * @return La respuesta del servidor al cliente
+     */
     public String accion(){
         
         if(_mensajeArreglo[0].equals("1")){

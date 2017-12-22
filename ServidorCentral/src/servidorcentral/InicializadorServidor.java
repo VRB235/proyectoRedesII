@@ -22,10 +22,18 @@ public class InicializadorServidor {
     Socket _socket;
     ConexionCliente _conexionCliente;
     
+    /**
+     * Constructor vacio del Inicializados de Servidor
+     */
     public InicializadorServidor (){
         
     }
     
+    /**
+     * Cosntrcutor del Inicializador de Servidor
+     * @param ip Ip de odnde se conecta
+     * @param puerto Puerto por el que escucha
+     */
     public InicializadorServidor(String ip, int puerto){
         
         this._puerto = puerto;
@@ -35,6 +43,9 @@ public class InicializadorServidor {
         
     }
 
+    /**
+     * Metodo para iniciar conecion por socket
+     */
     public void iniciar(){
         try {
                 
@@ -71,6 +82,9 @@ public class InicializadorServidor {
             
         }
         
+    /**
+     * Metodo apra cerrar conecxion por socket
+     */
         public void cerrar (){
             
             try {

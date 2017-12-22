@@ -32,6 +32,9 @@ public class ConexionCliente extends Thread {
         
     }
     
+    /**
+     * Metodo apra desconecta el socket
+     */
      public void desconnectar() {
          
         try {
@@ -46,6 +49,10 @@ public class ConexionCliente extends Thread {
             
         }
     }
+     
+     /**
+      * Metodo apra correr el cliente en hilos
+      */
     @Override
     public void run() {
         

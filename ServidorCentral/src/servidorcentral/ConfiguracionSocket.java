@@ -119,6 +119,8 @@ public class ConfiguracionSocket extends javax.swing.JFrame {
         
         try {
             
+            Consola _consola = new Consola();
+            _consola.setVisible(true);
             _inicializadorServidor = new InicializadorServidor
             (jTextField_ip.getText(), Integer.parseInt(jTextField_puerto.getText()));
             jButton_conectar.setEnabled(false);

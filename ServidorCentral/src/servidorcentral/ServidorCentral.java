@@ -22,6 +22,8 @@ public class ServidorCentral {
         ConfiguracionSocket _configuracionSocket = new ConfiguracionSocket();
         _configuracionSocket.setVisible(true);
         
+
+        
     }
     
 }

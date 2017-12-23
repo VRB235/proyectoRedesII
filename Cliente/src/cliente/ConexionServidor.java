@@ -11,6 +11,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,6 +28,7 @@ public class ConexionServidor extends Thread {
     DataOutputStream _dos;
     String _comando;
     ManejadorOrden _manejadorOrden;
+    public ArrayList<String> _respuesta;
     
     /**
      * Constrcutor de la Conexion al Servidor
@@ -41,6 +43,11 @@ public class ConexionServidor extends Thread {
         this._manejadorOrden = new ManejadorOrden();
         this._ipCliente = ipCliente;
         this._puertoCliente = puertoCliente;
+        _respuesta = new ArrayList<>();
+    }
+    
+    public ArrayList<String> obtenerRespuesta (){
+        return _respuesta;
     }
     
     /**
@@ -61,7 +68,20 @@ public class ConexionServidor extends Thread {
                 {
                     
                     _dos.writeUTF(_manejadorOrden.accion(_comando));
-                    System.out.println(_dis.readUTF());
+                    String _nroVideosString = _dis.readUTF();
+                    int _numVideos = Integer.parseInt(_nroVideosString);
+                    System.out.println(_nroVideosString);
+                    String _video = "";
+                    
+                    for (int i = 0; i <= _numVideos; i++) {
+                        
+                        _respuesta.add(i, _video);
+                        
+                        //_video = _dis.readUTF();
+                        //_respuesta.add(i,_video);
+                        
+                    }
+                    
                     
                 }else{
                     
@@ -93,7 +113,7 @@ public class ConexionServidor extends Thread {
             
         } catch (IOException e) {
             
-            System.out.println("Error cerrando conexion: "+e.getStackTrace());
+            System.out.println(e.getMessage());
             
         }
         

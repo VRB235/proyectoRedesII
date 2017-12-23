@@ -6,6 +6,7 @@
 package cliente;
 
 import java.awt.Event;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 
 /**
@@ -105,6 +106,24 @@ public class Consola extends javax.swing.JFrame {
             jTextField_comando.setText("");
             _conexionServidor = new ConexionServidor(_ip, _puerto,_comando,_ip_cliente,_puerto_cliente);
             _conexionServidor.start();
+            System.out.println(_comando);
+            if(_comando.toLowerCase().equals("dir")){
+                
+                ArrayList<String> _listaVideos = _conexionServidor.obtenerRespuesta();
+                System.out.println(_listaVideos);
+                for (String _listaVideo : _listaVideos) {
+                    _listModel.addElement(_listaVideo);
+                    //System.out.println(_listaVideo);
+                }
+                
+                jList_comandos.setModel(_listModel);
+                
+            }
+            
+            
+            
+            
+            
         }
     }//GEN-LAST:event_jTextField_comandoKeyPressed
 

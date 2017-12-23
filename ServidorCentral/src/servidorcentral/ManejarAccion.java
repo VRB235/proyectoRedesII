@@ -43,13 +43,13 @@ public class ManejarAccion {
         catch (ClassNotFoundException e)
         {
             
-            System.out.println("Clase de Registro no encontrada:"+e.getStackTrace());
+            System.out.println("Clase de Registro no encontrada:"+e.getMessage());
             
         }
         catch (SQLException e)
         {
             
-            System.out.println("Error de Conexion BD: "+e.getStackTrace());
+            System.out.println("Error de Conexion BD: "+e.getMessage());
             
         }
         
@@ -126,7 +126,7 @@ public class ManejarAccion {
             
         } catch (Exception e) {
             
-            System.out.println("Error en al consulta  a BD: "+e.getStackTrace());
+            System.out.println("Error en al consulta  a BD: "+e.getMessage());
             
         }
         
@@ -270,7 +270,7 @@ public class ManejarAccion {
             
         } catch (SQLException e) {
             
-            System.out.println("Error en al conexion a la BD: "+e.getStackTrace());
+            System.out.println("Error en al conexion a la BD: "+e.getMessage());
             
         }
         
@@ -319,13 +319,12 @@ public class ManejarAccion {
             _query = "select vid_id, vid_nombre, vid_tamano from video";
             Statement _st = _conn.createStatement();
             _resultSet = _st.executeQuery(_query);
-            
             while(_resultSet.next()){
-                
                 _video = new Video();
                 _video.setId(_resultSet.getInt("vid_id"));
                 _video.setNombre(_resultSet.getString("vid_nombre"));
                 _video.setTamaño(_resultSet.getString("vid_tamano"));
+                System.out.println(_video.getNombre());
                 _listaVideos.add(_video);
                 
             }
@@ -334,11 +333,12 @@ public class ManejarAccion {
             
         } catch (Exception e) {
            
-            System.out.println("Error en consulta: "+e.getStackTrace());
+            System.out.println("Error en consulta: "+e.getMessage());
+            return null;
             
         }
         
-        return null;
+        
         
     }
     
@@ -354,7 +354,7 @@ public class ManejarAccion {
             
         } catch (SQLException ex) {
             
-            System.out.println("Error de conexion a BD: "+ex.getStackTrace());
+            System.out.println("Error de conexion a BD: "+ex.getMessage());
             
         }
         

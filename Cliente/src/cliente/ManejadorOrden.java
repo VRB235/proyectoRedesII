@@ -17,6 +17,7 @@ public class ManejadorOrden {
      * @param comando Comando que se desea ejecutar por el servidor
      * @return Paquete a ser enviado al servidor
      */
+    
     public String accion(String comando){
         
         try {

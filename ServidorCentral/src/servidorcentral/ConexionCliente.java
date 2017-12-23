@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  *
@@ -45,7 +46,7 @@ public class ConexionCliente extends Thread {
             
         } catch (IOException ex) {
             
-            System.out.println(ex.getStackTrace());
+            System.out.println(ex.getMessage());
             
         }
     }
@@ -63,7 +64,15 @@ public class ConexionCliente extends Thread {
             
             _mensaje = _dataInputStream.readUTF();
             _manejadorOrden = new ManejadorOrden(_mensaje);
-            _dataOutputStream.writeUTF(_manejadorOrden.accion());
+            _manejadorOrden.accion();
+            _dataOutputStream.writeUTF(String.valueOf(_manejadorOrden.obtenerVideos().size()));
+            
+            ArrayList<Video> _listaVideos = _manejadorOrden.obtenerVideos();
+            for (Video _listaVideo : _listaVideos) {
+                
+                _dataOutputStream.writeUTF(_listaVideo.getNombre());
+                
+            }
    
         } catch (IOException ex) {
             
@@ -72,7 +81,7 @@ public class ConexionCliente extends Thread {
             
         }catch(Exception e){
             
-            System.out.println(e.getStackTrace());
+            System.out.println(e.getMessage());
             
         }
         

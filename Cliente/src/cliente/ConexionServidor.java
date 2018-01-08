@@ -67,7 +67,10 @@ public class ConexionServidor {
                 if(_comando.toLowerCase().equals("videos_mas_descargados")){
                     
                     System.out.println("Videos Mas Descargados");
-                    
+                    _dataOutputStream.writeUTF("5:videos_mas_descargados");
+                    _respuesta = _dataInputStream.readUTF();
+                    System.out.println(_respuesta);
+
                 }
                 else
                 {

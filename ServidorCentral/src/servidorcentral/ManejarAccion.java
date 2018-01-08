@@ -99,14 +99,15 @@ public class ManejarAccion {
      * Metodo para obtener los 10 videos mas descargados
      * @return Lista de los 10videos mas descargados
      */
-    public ArrayList<Video> accionNumeroVideosDescargados(){
+    public String accionNumeroVideosDescargados(){
         
-        ArrayList<Video> _listaVideos = new ArrayList<>();
-        Video _video;
+        String _listaVideos = "";
         
         try {
             
-            _query = "select vid_nombre, vid_num_descargados from video "
+            _query = "select vid_nombre, vid_num_descargados,"
+                    + "(select cli_nombre from cliente where cli_id=fk_usuario) as cliente "
+                    + "from video "
                     + "order by (vid_num_descargados,vid_nombre) desc limit 10";
             
             Statement _st = _conn.createStatement();
@@ -114,23 +115,21 @@ public class ManejarAccion {
             
             while(_resultSet.next()){
                 
-                _video = new Video();
-                _video.setNombre(_resultSet.getString("vid_nombre"));
-                _video.setNumDescargado(Integer.parseInt(
-                        _resultSet.getString("vid_num_descargados")));
-                _listaVideos.add(_video);
-                
+                _listaVideos = _listaVideos +_resultSet.getString("vid_nombre")
+                        +":"+_resultSet.getString("vid_num_descargados")+":"+
+                        _resultSet.getString("cliente")+"@";
+
             }
-            
             return _listaVideos;
             
-        } catch (Exception e) {
+        } catch (SQLException e) {
             
             System.out.println("Error en al consulta  a BD: "+e.getMessage());
+            return null;
             
         }
         
-        return null;
+        
         
     }
     

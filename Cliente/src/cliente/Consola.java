@@ -106,6 +106,7 @@ public class Consola extends javax.swing.JFrame {
             jTextField_comando.setText("");
             _conexionServidor = new ConexionServidor(_ip, _puerto,_comando);
             System.out.println(_comando);
+            try{
             if(_comando.toLowerCase().equals("dir")){
                 _conexionServidor.start();
                 
@@ -131,6 +132,23 @@ public class Consola extends javax.swing.JFrame {
                 if(_comando.toLowerCase().equals("videos_mas_descargados")){
                     
                     System.out.println("Videos Mas Descargados");
+                    _conexionServidor.start();
+                    
+                    String _respuesta = _conexionServidor.obtenerRespuesta();
+                
+                    String _video = "";
+                    String [] _videoSplit;
+                    String[] _respuestaSplit = _respuesta.split("@");
+                    for (String string : _respuestaSplit) {
+                        System.out.println(string);
+                        _video = string;
+                        _videoSplit = _video.split(":");
+                        _listModel.addElement("Nombre del Video : "+_videoSplit[0]+
+                            "     Cantidad de Descargas : "+_videoSplit[1]+
+                            "     Dueño del Video: "+_videoSplit[2]);
+                    }
+                    jList_comandos.setModel(_listModel);
+                    
                     
                 }
                 else
@@ -171,6 +189,16 @@ public class Consola extends javax.swing.JFrame {
                                     _listModel.addElement(_conexionServidor.obtenerRespuesta());
                                     jList_comandos.setModel(_listModel);
                                 }
+                                else{
+                                    if(_comando.toLowerCase().equals("exit"))
+                                    {
+                                        this.dispose();
+                                    }
+                                    else{
+                                        _listModel.addElement("COMANDO NO RECONOCIDO");
+                                        jList_comandos.setModel(_listModel);
+                                    }
+                                }
                             }
                             
                         }
@@ -178,6 +206,10 @@ public class Consola extends javax.swing.JFrame {
                     }
                 }
             }
+        }catch(Exception e){
+            _listModel.addElement("ERROR EN COMANDO");
+            jList_comandos.setModel(_listModel);
+        }
             
             
             

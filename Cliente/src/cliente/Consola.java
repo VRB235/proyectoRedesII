@@ -157,6 +157,22 @@ public class Consola extends javax.swing.JFrame {
                         
                         System.out.println("Clientes Mas Videos");
                         
+                        _conexionServidor.start();
+                    
+                        String _respuesta = _conexionServidor.obtenerRespuesta();
+                
+                        String _cliente = "";
+                        String [] _clienteSplit;
+                        String[] _respuestaSplit = _respuesta.split("@");
+                        for (String string : _respuestaSplit) {
+                            System.out.println(string);
+                            _cliente = string;
+                            _clienteSplit = _cliente.split(":");
+                            _listModel.addElement("Nombre del Cliente : "+_clienteSplit[0]+
+                            "     Cantidad de Descargas : "+_clienteSplit[1]);
+                    }
+                    jList_comandos.setModel(_listModel);
+                        
                     }
                     else
                     {

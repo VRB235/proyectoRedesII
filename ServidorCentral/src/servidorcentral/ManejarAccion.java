@@ -59,10 +59,9 @@ public class ManejarAccion {
      * Metodo para consultar los 10 clientes con mas descargas de videos
      * @return lista de los 10 clientes con mas descargas
      */
-    public ArrayList<Cliente> accionNumeroClientesDescargas(){
+    public String accionNumeroClientesDescargas(){
         
-        ArrayList<Cliente> _listaClientes = new ArrayList<>();
-        Cliente _cliente;
+        String _listaClientes = "";
         
         try {
             
@@ -75,12 +74,9 @@ public class ManejarAccion {
             
             while(_resultSet.next()){
                 
-                _cliente = new Cliente();
-                _cliente.setNombre(_resultSet.getString("cli_nombre"));
-                _cliente.setNumeroVideosDescargados(
-                        _resultSet.getInt("cli_num_descargas"));
-                _listaClientes.add(_cliente);
-                
+                _listaClientes = _listaClientes + _resultSet.getString("cli_nombre")
+                        +":"+_resultSet.getString("cli_num_descargas")+"@";
+
             }
             
             return _listaClientes;
@@ -88,10 +84,11 @@ public class ManejarAccion {
         } catch (Exception e) {
             
             System.out.println("Error al consultar numero de descargas de cliente");
+            return null;
             
         }
         
-        return null;
+        
         
     }
     

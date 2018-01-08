@@ -94,7 +94,8 @@ public class ManejadorOrden {
                                 if(_mensajeArreglo[0].equals("6")){
                                     
                                     System.out.println("Clientes con mas descargas");
-                                    //return "Clientes con mas descargas";
+                                    _manejarAccion = new ManejarAccion();
+                                    return _manejarAccion.accionNumeroClientesDescargas();
                                     
                                 }
                                 

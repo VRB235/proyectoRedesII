@@ -101,6 +101,19 @@ public class InicializadorServidor {
                                         System.out.println(_respuesta);
                                         _dataOutputStream.writeUTF(_respuesta);
                                     }
+                                    else{
+                                        if(_peticionSplit[0].equals("6")){
+                                            System.out.println("Clientes Mas Desscargados");
+                                            ManejadorOrden _mo = new ManejadorOrden(_peticion);
+                                            String _respuesta = _mo.accion();
+                                            System.out.println(_respuesta);
+                                            _dataOutputStream.writeUTF(_respuesta);
+                                        }
+                                        else
+                                        {
+                                            System.out.println("INTENTO FALLIDO SE HACER CAER EL SISTEMA");
+                                        }
+                                    }
                                 }
                             }
                         }

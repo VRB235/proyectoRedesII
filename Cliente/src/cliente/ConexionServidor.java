@@ -77,6 +77,9 @@ public class ConexionServidor {
                     if(_comando.toLowerCase().equals("clientes_mas_videos")){
                         
                         System.out.println("Clientes Mas Videos");
+                        _dataOutputStream.writeUTF("6:clientes_mas_videos");
+                        _respuesta = _dataInputStream.readUTF();
+                        System.out.println(_respuesta);
                         
                     }
                     else

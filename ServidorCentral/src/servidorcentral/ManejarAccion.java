@@ -55,6 +55,35 @@ public class ManejarAccion {
         
     }
     
+    public String accionNumeroDeDescargasXVideo(){
+        
+        String _listaVideos = "";
+        
+        try {
+            
+            _query = "";
+            
+            
+            Statement _st = _conn.createStatement();
+            _resultSet = _st.executeQuery(_query);
+            
+            while(_resultSet.next()){
+                
+                _listaVideos = _listaVideos +"@";
+
+            }
+            
+            return _listaVideos;
+            
+        } catch (Exception e) {
+            
+            System.out.println("Error al consultar numero de descargas de cliente");
+            return null;
+            
+        }
+        
+    }
+    
     /**
      * Metodo para consultar los 10 clientes con mas descargas de videos
      * @return lista de los 10 clientes con mas descargas

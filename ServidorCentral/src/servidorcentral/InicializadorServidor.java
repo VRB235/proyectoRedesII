@@ -15,7 +15,7 @@ import java.net.Socket;
  *
  * @author Leonardo
  */
-public class InicializadorServidor {
+public class InicializadorServidor extends Thread {
 
     int _puerto;
     String _ip;
@@ -48,7 +48,10 @@ public class InicializadorServidor {
     /**
      * Metodo para iniciar conecion por socket
      */
-    public void iniciar(){
+    @Override
+    public void start(){
+        
+    
         
         try {
             

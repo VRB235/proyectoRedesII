@@ -68,15 +68,15 @@ public class InicializadorServidor {
                     if(_peticion.equals("1:dir")){
                         System.out.println(_peticion);
                         ManejadorOrden _mo = new ManejadorOrden(_peticion);
-                        _mo.accion();
-                        _dataOutputStream.writeUTF("INSERTADO");
+                        _dataOutputStream.writeUTF(_mo.accion());
                     }
                     else
                     {
                         if(_peticionSplit[0].equals("2")){
                             System.out.println("INSC");
                             ManejadorOrden _mo = new ManejadorOrden(_peticion);
-                            _dataOutputStream.writeUTF(_mo.accion());
+                            _mo.accion();
+                            _dataOutputStream.writeUTF("INSERTADO");
                         }
                         else{
                             if(_peticionSplit[0].equals("3")){
@@ -88,7 +88,9 @@ public class InicializadorServidor {
                                 if(_peticionSplit[0].equals("4")){
                                     System.out.println("Descargar");
                                     ManejadorOrden _mo = new ManejadorOrden(_peticion);
-                                    _dataOutputStream.writeUTF(_mo.accion());
+                                    String _respuesta = _mo.accion();
+                                    System.out.println("Enciado al cliente: "+_respuesta);
+                                    _dataOutputStream.writeUTF(_respuesta);
                                 }
                             }
                         }

@@ -104,17 +104,18 @@ public class Consola extends javax.swing.JFrame {
             jList_comandos.setModel(_listModel);
             _comando = jTextField_comando.getText();
             jTextField_comando.setText("");
-            _conexionServidor = new ConexionServidor(_ip, _puerto,_comando,_ip_cliente,_puerto_cliente);
+            _conexionServidor = new ConexionServidor(_ip, _puerto,_comando);
             System.out.println(_comando);
             if(_comando.toLowerCase().equals("dir")){
                 _conexionServidor.start();
                 
-                String _respuesta = _conexionServidor.obtenerVideos();
+                String _respuesta = _conexionServidor.obtenerRespuesta();
                 
                 String _video = "";
                 String [] _videoSplit;
                 String[] _respuestaSplit = _respuesta.split("@");
                 for (String string : _respuestaSplit) {
+                    System.out.println(string);
                     _video = string;
                     _videoSplit = _video.split(":");
                     _listModel.addElement("ID: "+_videoSplit[0]+
@@ -146,7 +147,12 @@ public class Consola extends javax.swing.JFrame {
                             
                             _conexionServidor.start();
                             
-                            IniciarServidor _IniciarServidor = new  IniciarServidor(this._puerto);
+                            _listModel.addElement(_conexionServidor.obtenerRespuesta());
+                            jList_comandos.setModel(_listModel);
+                            
+                            IniciarServidor _IniciarServidor = 
+                                    new  IniciarServidor(Integer.valueOf(
+                                            _comandoSplit[3]));
                             _IniciarServidor.start();
                             
                         }
@@ -155,11 +161,15 @@ public class Consola extends javax.swing.JFrame {
                             if(_comandoSplit[0].toLowerCase().equals("video")){
                                 
                                 _conexionServidor.start();
+                                _listModel.addElement(_conexionServidor.obtenerRespuesta());
+                                jList_comandos.setModel(_listModel);
                                 
                             }
                             else{
                                 if(_comandoSplit[0].toLowerCase().equals("descargar")){
                                     _conexionServidor.start();
+                                    _listModel.addElement(_conexionServidor.obtenerRespuesta());
+                                    jList_comandos.setModel(_listModel);
                                 }
                             }
                             

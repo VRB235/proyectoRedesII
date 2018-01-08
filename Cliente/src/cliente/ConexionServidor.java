@@ -36,16 +36,14 @@ public class ConexionServidor {
      * @param puerto
      * @param comando 
      */
-    public ConexionServidor(String ip, int puerto, String comando, String ipCliente, int puertoCliente) {
+    public ConexionServidor(String ip, int puerto, String comando) {
         this._ip = ip;
         this._puerto = puerto;
         this._comando = comando;
         this._manejadorOrden = new ManejadorOrden();
-        this._ipCliente = ipCliente;
-        this._puertoCliente = puertoCliente;
     }
     
-    public String obtenerVideos(){
+    public String obtenerRespuesta(){
         return _respuesta;
     }
     
@@ -85,7 +83,7 @@ public class ConexionServidor {
                             
                             _dataOutputStream.writeUTF("2:"+_comandoSplit[1]+":"
                                     +_comandoSplit[2]+":"+_comandoSplit[3]);
-                            _respuesta = _dis.readUTF();
+                            _respuesta = _dataInputStream.readUTF();
                             
                             System.out.println(_respuesta);
 
@@ -96,7 +94,7 @@ public class ConexionServidor {
                                 
                                 _dataOutputStream.writeUTF("3:"+_comandoSplit[1]
                                         +":"+_comandoSplit[2]+":"+_comandoSplit[3]);
-                                _respuesta = _dis.readUTF();
+                                _respuesta = _dataInputStream.readUTF();
                                 
                                 System.out.println(_respuesta);
                                 
@@ -104,9 +102,10 @@ public class ConexionServidor {
                             else{
                                 if(_comandoSplit[0].toLowerCase().equals("descargar")){
                                     _dataOutputStream.writeUTF("4:"+_comandoSplit[1]);
-                                    _respuesta = _dis.readUTF();
-                                
+                                    _respuesta = _dataInputStream.readUTF();
                                     System.out.println(_respuesta);
+                                    
+
                                 }
                             }
                         }

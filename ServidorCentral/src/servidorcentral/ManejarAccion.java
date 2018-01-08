@@ -180,7 +180,8 @@ public class ManejarAccion {
     
     /**
      * Metodo para descargar un video
-     * @param id Nombre del video
+     * @param id id del video
+     * @return 
      */
     public String accionDescargar(String id){
         
@@ -213,16 +214,9 @@ public class ManejarAccion {
             System.out.println(_respuesta);
             
             return _respuesta;
-            /*
-            
-            ENVIAR ARCHIVO
-            
-            */
-            
-            
             
         } catch (SQLException e) {
-            System.out.println("SQL EXCEPTION");
+            System.out.println("SQL EXCEPTION"+e.getMessage()+" "+e.getSQLState());
         }
         return null;
     }
@@ -236,7 +230,7 @@ public class ManejarAccion {
         
         try {
             
-            _query = "select cli_puerto, cli_ip from cliente where cl_id ="+id;
+            _query = "select cli_puerto, cli_ip from cliente where cli_id ="+id;
             
             Statement _st = _conn.createStatement();
             _resultSet = _st.executeQuery(_query);

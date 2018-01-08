@@ -61,7 +61,8 @@ public class ManejarAccion {
         
         try {
             
-            _query = "";
+            _query = "select  vid_nombre, vid_num_descargados from video "
+                    + "order by vid_num_descargados desc";
             
             
             Statement _st = _conn.createStatement();
@@ -69,11 +70,43 @@ public class ManejarAccion {
             
             while(_resultSet.next()){
                 
-                _listaVideos = _listaVideos +"@";
+                _listaVideos = _listaVideos +_resultSet.getString("vid_nombre")
+                        +":"+_resultSet.getString("vid_num_descargados")+"@";
 
             }
             
             return _listaVideos;
+            
+        } catch (Exception e) {
+            
+            System.out.println("Error al consultar numero de descargas de cliente");
+            return null;
+            
+        }
+        
+    }
+    
+    public String accionNumeroDeDescargasXCliente(){
+        
+        String _listaClientes = "";
+        
+        try {
+            
+            _query = "select cli_nombre, cli_num_descargas from cliente "
+                    + "order by cli_num_descargas desc";
+            
+            
+            Statement _st = _conn.createStatement();
+            _resultSet = _st.executeQuery(_query);
+            
+            while(_resultSet.next()){
+                
+                _listaClientes = _listaClientes +_resultSet.getString("cli_nombre")
+                        +":"+_resultSet.getString("cli_num_descargas")+"@";
+
+            }
+            
+            return _listaClientes;
             
         } catch (Exception e) {
             

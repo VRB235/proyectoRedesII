@@ -23,6 +23,7 @@ public class InicializadorServidor extends Thread {
     ServerSocket _serverSocket;
     Socket _socket;
     ConexionCliente _conexionCliente;
+    IniciarVentanaConexionSocket ini;
     
     /**
      * Constructor vacio del Inicializados de Servidor
@@ -35,13 +36,15 @@ public class InicializadorServidor extends Thread {
      * Cosntrcutor del Inicializador de Servidor
      * @param ip Ip de odnde se conecta
      * @param puerto Puerto por el que escucha
+     * @param ini
      */
-    public InicializadorServidor(String ip, int puerto){
+    public InicializadorServidor(String ip, int puerto, IniciarVentanaConexionSocket ini){
         
         this._puerto = puerto;
         this._ip = ip;
         this._serverSocket = null; 
         this._socket = null;
+        this.ini = ini;
         
     }
 
@@ -124,6 +127,11 @@ public class InicializadorServidor extends Thread {
                 }
             _dataOutputStream.close();
             _socket.close();
+            
+            if(!ini.isAlive()){
+                this.interrupt();
+            }
+            
             }
             
             

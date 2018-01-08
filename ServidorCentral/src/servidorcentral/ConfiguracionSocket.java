@@ -122,11 +122,11 @@ public class ConfiguracionSocket extends javax.swing.JFrame {
             Consola _consola = new Consola();
         _consola.setVisible(true);
             this.dispose();
-            _inicializadorServidor = new InicializadorServidor
-            (jTextField_ip.getText(), Integer.parseInt(jTextField_puerto.getText()));
-            jButton_conectar.setEnabled(false);
-            jButton_desconectar.setEnabled(true);
-            _inicializadorServidor.start();
+//            _inicializadorServidor = new InicializadorServidor
+//            (jTextField_ip.getText(), Integer.parseInt(jTextField_puerto.getText()));
+//            jButton_conectar.setEnabled(false);
+//            jButton_desconectar.setEnabled(true);
+//            _inicializadorServidor.start();
             
             
         } catch (NumberFormatException e) {

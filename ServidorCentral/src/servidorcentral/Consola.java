@@ -85,6 +85,49 @@ public class Consola extends javax.swing.JFrame {
             _comando = jTextField_comando.getText();
             jTextField_comando.setText("");
             
+            if(_comando.toLowerCase().equals("numdescargasxvideos")){
+                System.out.println("NumDescargasxVideo");
+                ManejarAccion _ma = new ManejarAccion();
+                String _videos = _ma.accionNumeroDeDescargasXVideo();
+                String [] _videosSplit = _videos.split("@");
+                
+                for (String video : _videosSplit) {
+                    System.out.println(video);
+                    String [] _videoSplit = video.split(":");
+                    _listModel.addElement("Nombre del Video: "+_videoSplit[0]+"         "
+                            +"Cantidad de Descargas: "+_videoSplit[1]);
+                }
+                jList_comandos.setModel(_listModel);
+                
+            }else
+            {
+                if(_comando.toLowerCase().equals("numdescargasxcliente"))
+                {
+                    System.out.println("NumDescargasxCliente");
+                    ManejarAccion _ma = new ManejarAccion();
+                    String _clientes = _ma.accionNumeroDeDescargasXCliente();
+                    String [] _clientesSplit = _clientes.split("@");
+                
+                    for (String cliente : _clientesSplit) {
+                        System.out.println(cliente);
+                        String [] _clienteSplit = cliente.split(":");
+                        _listModel.addElement("Nombre del Cliente: "+_clienteSplit[0]+"         "
+                                +"Cantidad de Descargas: "+_clienteSplit[1]);
+                    }
+                    jList_comandos.setModel(_listModel);
+                }else
+                {
+                    if(_comando.toLowerCase().equals("exit"))
+                    {
+                        this.dispose();
+                    }else{
+                        _listModel.addElement("COMANDO NO ENCONTRADO");
+                        jList_comandos.setModel(_listModel);
+                    }
+                }
+                
+            }
+            
         }
         
     }//GEN-LAST:event_jTextField_comandoKeyPressed

@@ -58,19 +58,19 @@ public class ConexionCliente extends Thread {
     public void run() {
         
         try {
-            
             _dataInputStream = new DataInputStream(_socket.getInputStream());
             _dataOutputStream = new DataOutputStream(_socket.getOutputStream());
-            
             _mensaje = _dataInputStream.readUTF();
+            System.out.println("Mensaje Recibido: "+_mensaje);
             _manejadorOrden = new ManejadorOrden(_mensaje);
-            _manejadorOrden.accion();
-            _dataOutputStream.writeUTF(String.valueOf(_manejadorOrden.obtenerVideos().size()));
+            String _respuesta = _manejadorOrden.accion();
+            String[] _splitMensaje = _mensaje.split(":");
             
-            ArrayList<Video> _listaVideos = _manejadorOrden.obtenerVideos();
-            for (Video _listaVideo : _listaVideos) {
-                
-                _dataOutputStream.writeUTF(_listaVideo.getNombre());
+            if(_splitMensaje[0].equals("1")){
+                 System.out.println("DIR HECHO POR CLIENTE");
+                System.out.println(_respuesta);
+                _dataOutputStream.writeUTF(_respuesta);
+                desconnectar();
                 
             }
    

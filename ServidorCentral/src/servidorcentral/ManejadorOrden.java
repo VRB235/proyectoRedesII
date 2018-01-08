@@ -16,7 +16,7 @@ public class ManejadorOrden {
     String _mensaje;
     String[] _mensajeArreglo;
     ManejarAccion _manejarAccion;
-    ArrayList<Video> _listaVideos;
+    String _listaVideos;
     
     /**
      * Constructor del manejador de Ordenes
@@ -29,21 +29,20 @@ public class ManejadorOrden {
         
     }
     
-    public ArrayList<Video> obtenerVideos(){
+    public String obtenerVideos(){
         return _listaVideos;
     }
     
     /**
      * Metodo para manejar las acciones realizadas por el servidor
-     * @return La respuesta del servidor al cliente
      */
-    public void accion(){
+    public String accion(){
         
         if(_mensajeArreglo[0].equals("1")){
             
             _manejarAccion = new ManejarAccion();
             System.out.println("Accion DIR Orden");
-             _listaVideos = _manejarAccion.accionDir();
+             return _manejarAccion.accionDir();
             
         }else{
             
@@ -57,13 +56,18 @@ public class ManejadorOrden {
                 if(_mensajeArreglo[0].equals("2")){
                     
                     System.out.println("Accion registrar usuario");
-                    //return "Accion registrar usuario";
+                    _manejarAccion = new ManejarAccion();
+                    return _manejarAccion.accionInsn(_mensajeArreglo[1], 
+                            _mensajeArreglo[2], Integer.parseInt(_mensajeArreglo[3]));
                     
                 }else{
                     
                     if(_mensajeArreglo[0].equals("3")){
                         
-                        System.out.println("Registrar Video");
+                        System.out.println("Accion Registrar Video");
+                        _manejarAccion = new ManejarAccion();
+                        return _manejarAccion.accionVideo(_mensajeArreglo[1],
+                                null, _mensajeArreglo[2], _mensajeArreglo[3]);
                         //return "Registrar Video";
                         
                     }else{
@@ -71,6 +75,10 @@ public class ManejadorOrden {
                         if(_mensajeArreglo[0].equals("4")){
                             
                             System.out.println("Descargar Video");
+                            
+                            _manejarAccion = new ManejarAccion();
+                            return _manejarAccion.accionDescargar(_mensajeArreglo[1]);
+                            
                             //return "Descargar Video";
                             
                         }else{
@@ -101,7 +109,7 @@ public class ManejadorOrden {
             
         }
         
-        //return null;
+        return null;
         
     }
     

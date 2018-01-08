@@ -31,13 +31,13 @@ public class Consola extends javax.swing.JFrame {
         initComponents();
     }
     
-    public Consola(String ip, int puerto, String usuario, String ipCliente, int puertoCliente){
+    public Consola(String ip, int puerto){
         initComponents();
+        
+        
+        
         this._ip = ip;
         this._puerto = puerto;
-        this._usuario = usuario;
-        this._ip_cliente = ipCliente;
-        this._puerto_cliente = puertoCliente;
     }
 
     /**
@@ -105,19 +105,63 @@ public class Consola extends javax.swing.JFrame {
             _comando = jTextField_comando.getText();
             jTextField_comando.setText("");
             _conexionServidor = new ConexionServidor(_ip, _puerto,_comando,_ip_cliente,_puerto_cliente);
-            _conexionServidor.start();
             System.out.println(_comando);
             if(_comando.toLowerCase().equals("dir")){
+                _conexionServidor.start();
                 
-                ArrayList<String> _listaVideos = _conexionServidor.obtenerRespuesta();
-                System.out.println(_listaVideos);
-                for (String _listaVideo : _listaVideos) {
-                    _listModel.addElement(_listaVideo);
-                    //System.out.println(_listaVideo);
+                String _respuesta = _conexionServidor.obtenerVideos();
+                
+                String _video = "";
+                String [] _videoSplit;
+                String[] _respuestaSplit = _respuesta.split("@");
+                for (String string : _respuestaSplit) {
+                    _video = string;
+                    _videoSplit = _video.split(":");
+                    _listModel.addElement("ID: "+_videoSplit[0]+
+                            "     Nombre del Video: "+_videoSplit[1]+
+                            "     Tamaño del Video: "+_videoSplit[2]+" bytes");
+                    
+                    jList_comandos.setModel(_listModel);
+            
                 }
                 
-                jList_comandos.setModel(_listModel);
-                
+            }
+            else{
+                if(_comando.toLowerCase().equals("videos_mas_descargados")){
+                    
+                    System.out.println("Videos Mas Descargados");
+                    
+                }
+                else
+                {
+                    if(_comando.toLowerCase().equals("clientes_mas_videos")){
+                        
+                        System.out.println("Clientes Mas Videos");
+                        
+                    }
+                    else
+                    {
+                        String [] _comandoSplit = _comando.split(" ");
+                        if(_comandoSplit[0].toLowerCase().equals("insc")){
+                            
+                            _conexionServidor.start();
+                            
+                            IniciarServidor _IniciarServidor = new  IniciarServidor(this._puerto);
+                            _IniciarServidor.start();
+                            
+                        }
+                        else{
+                            
+                            if(_comandoSplit[0].toLowerCase().equals("video")){
+                                
+                                _conexionServidor.start();
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                }
             }
             
             

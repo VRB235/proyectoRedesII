@@ -11,7 +11,7 @@ package servidorcentral;
  */
 public class Registro {
     public static String POSTGRE_BD_USER = "postgres"; 
-    public static String POSTGRE_BD_PASSWORD = "12345"; 
+    public static String POSTGRE_BD_PASSWORD = "123456"; 
     public static String POSTGRE_BD_URL = "jdbc:postgresql://localhost:5432/proyredes2"; 
     public static String POSTGRE_BD_CLASS_FOR_NAME = "org.postgresql.Driver";
 }

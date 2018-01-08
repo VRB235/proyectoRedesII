@@ -5,6 +5,8 @@
  */
 package servidorcentral;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -47,40 +49,54 @@ public class InicializadorServidor {
      * Metodo para iniciar conecion por socket
      */
     public void iniciar(){
+        
         try {
-                
-        _serverSocket = new ServerSocket(_puerto, _maximoConexiones);
             
-        while (true) {
-                
-            System.out.println("Servidor a la espera de conexiones.");
+            
+            while(true){
+                ServerSocket _serverSocket = new ServerSocket(1234);
+            System.out.println("Esperando conexion...");
             _socket = _serverSocket.accept();
-            System.out.println("Cliente con la IP: "+_socket.getInetAddress().getHostName()+" conectado");
-                
-            _conexionCliente = new ConexionCliente(_socket);
-            _conexionCliente.start();
-                
-        }
-        } catch (IOException ex) {
-                
-            System.out.println("Error: "+ex.getMessage());
-                
-        } finally{
-                
-            try {
-                    
-                _socket.close();
-                _serverSocket.close();
-                    
-                } catch (IOException ex) {
-                    
-                    System.out.println("Error al cerrar el servidor: "+ex.getMessage());
-                    
-                }
-                
-            }   
+            System.out.println("Cliente aceptado: "+_socket.getInetAddress());
             
+            DataOutputStream _dataOutputStream;
+                try (DataInputStream _dataInputStream = new DataInputStream(_socket.getInputStream())) {
+                    _dataOutputStream = new DataOutputStream(_socket.getOutputStream());
+                    String _peticion = _dataInputStream.readUTF();
+                    String [] _peticionSplit = _peticion.split(":");
+                    if(_peticion.equals("1:dir")){
+                        System.out.println(_peticion);
+                        ManejadorOrden _mo = new ManejadorOrden(_peticion);
+                        _mo.accion();
+                        _dataOutputStream.writeUTF("INSERTADO");
+                    }
+                    else
+                    {
+                        if(_peticionSplit[0].equals("2")){
+                            System.out.println("INSC");
+                            ManejadorOrden _mo = new ManejadorOrden(_peticion);
+                            _dataOutputStream.writeUTF(_mo.accion());
+                        }
+                        else{
+                            if(_peticionSplit[0].equals("3")){
+                                System.out.println("Video");
+                                ManejadorOrden _mo = new ManejadorOrden(_peticion);
+                                _mo.accion();
+                                _dataOutputStream.writeUTF("INSERTADO");
+                            }
+                        }
+                    }  
+                }
+            _dataOutputStream.close();
+            _socket.close();
+            }
+            
+            
+        } catch (IOException e) {
+        
+            System.out.println("Error "+e.getMessage());
         }
+    }
         
     /**
      * Metodo apra cerrar conecxion por socket

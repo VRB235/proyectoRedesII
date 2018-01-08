@@ -2,3 +2,12 @@
 /Cliente/nbproject/private/
 /Cliente/build/
 /ServidorCentral/build/
+/ServidorCentral/dist/
+/ClienteSeg/nbproject/private/
+/ClienteSeg/build
+/BancoComprador/nbproject/private/
+/BancoVendedor/nbproject/private/
+/BancoVendedor/build/
+/BancoComprador/build/
+/PruebaConexionPhp/nbproject/private/
+/PruebaConexionPhp/build/

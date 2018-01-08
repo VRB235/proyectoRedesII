@@ -136,21 +136,21 @@ public class ManejarAccion {
     
     /**
      * Actualiza el contador de descargas hechas a un video al ser este descargado
-     * @param nombre Nombre del video
+     * @param id Nombre del video
      */
-    public void contadorDescargasVideo(String nombre){
+    public void contadorDescargasVideo(String id){
         
         try {
             
             _query = "update video set vid_num_descargados = vid_num_descargados +1 "
-                + "where vid_nombre='"+nombre+"'";
+                + "where vid_id="+id;
             
             Statement _st = _conn.createStatement();
             _resultSet = _st.executeQuery(_query);
             
         } catch (Exception e) {
             
-
+            System.out.println("SQL EXCEPTION");    
             
         }
         
@@ -171,8 +171,8 @@ public class ManejarAccion {
             Statement _st = _conn.createStatement();
             _resultSet = _st.executeQuery(_query);
             
-        } catch (Exception e) {
-
+        } catch (SQLException e) {
+            System.out.println("SQL EXCEPTION");
             
         }
         
@@ -180,16 +180,16 @@ public class ManejarAccion {
     
     /**
      * Metodo para descargar un video
-     * @param nombre Nombre del video
+     * @param id Nombre del video
      */
-    public void accionDescargar(String nombre){
+    public String accionDescargar(String id){
         
         Video _video = null;
         
         try {
             
             _query = "select vid_nombre, vid_ruta, vid_tamano, fk_usuario from video where "
-                    + "vid_nombre='"+nombre+"' limit 1";
+                    + "vid_id="+id;
             
             Statement _st = _conn.createStatement();
             _resultSet = _st.executeQuery(_query);
@@ -201,7 +201,7 @@ public class ManejarAccion {
                 _video.setRuta(_resultSet.getString("vid_ruta"));
                 _video.setTamaño(_resultSet.getString("vid_tamano"));
                 _video.setDueño(_resultSet.getInt("fk_usuario"));
-                contadorDescargasVideo(nombre);
+                contadorDescargasVideo(id);
                 contadorDescargasCliente(_video.getDueño());
                 
             }
@@ -213,9 +213,43 @@ public class ManejarAccion {
             
             */
             
-        } catch (Exception e) {
+            
+            
+        } catch (SQLException e) {
+            System.out.println("SQL EXCEPTION");
+        }
+        return null;
+    }
+    
+    /**
+     * Devuelve el puerto e ip del cliente del cual va a ser descargado el video
+     * @param id
+     * @return ip y puerto en formato especial separado por ":"
+     */
+    public String devolverInfoUsuario(String id){
+        
+        try {
+            
+            _query = "select cli_puerto, cli_ip from cliente where cl_id ="+id;
+            
+            Statement _st = _conn.createStatement();
+            _resultSet = _st.executeQuery(_query);
+            String _ip = "";
+            String _puerto = "";
+            while(_resultSet.next()){
+                
+                _puerto = _resultSet.getString("cli_puerto");
+                _ip = _resultSet.getString("cli_ip");
+                
+            }
+           
+            return ":"+_puerto+":"+_ip;
+           
+        } catch (SQLException e) {
+            System.out.println("SQL EXCEPTION");
         }
         
+        return null;
     }
     
     /**
@@ -226,7 +260,7 @@ public class ManejarAccion {
      * @param ruta Ruta donde permanecera el video en el cliente
      * @return Respuesta de la base de datos
      */
-    public boolean accionVideo(String nombreCliente, String tamano, String nombre, String ruta){
+    public String accionVideo(String nombreCliente, String tamano, String nombre, String ruta){
         
         try {
                 
@@ -236,11 +270,11 @@ public class ManejarAccion {
                         + " from cliente where cli_nombre='"+nombreCliente+"'))";
                 Statement _st = _conn.createStatement();
                 _resultSet = _st.executeQuery(_query);
-                return false;
+                return "REGISTRADO";
                 
             } catch (Exception e) {
                 
-                return true;
+                return "NO REGISTRADO";
                 
             }
         
@@ -285,7 +319,7 @@ public class ManejarAccion {
      * @param puerto Puerto de escucha del cliente
      * @return Respuesta de la base de datos
      */
-    public boolean accionInsn (String nombre,String ip , int puerto){
+    public String accionInsn (String nombre,String ip , int puerto){
         
             try {
                 
@@ -294,11 +328,11 @@ public class ManejarAccion {
                         + "'"+nombre+"',"+puerto+",'"+ip+"',0)";
                 Statement _st = _conn.createStatement();
                 _resultSet = _st.executeQuery(_query);
-                return false;
+                return "INSERTADO";
                 
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 
-                return true;
+                return "NO INSERTADO";
                 
             }
         
@@ -309,10 +343,9 @@ public class ManejarAccion {
      * registrardos
      * @return Devuelve una lsita con los videos disponibles
      */
-    public ArrayList<Video> accionDir (){
-        
-        Video _video;
-        ArrayList<Video> _listaVideos = new ArrayList<>();
+    public String accionDir (){
+
+        String _listaVideos = "";
         
         try {
             
@@ -320,12 +353,11 @@ public class ManejarAccion {
             Statement _st = _conn.createStatement();
             _resultSet = _st.executeQuery(_query);
             while(_resultSet.next()){
-                _video = new Video();
-                _video.setId(_resultSet.getInt("vid_id"));
-                _video.setNombre(_resultSet.getString("vid_nombre"));
-                _video.setTamaño(_resultSet.getString("vid_tamano"));
-                System.out.println(_video.getNombre());
-                _listaVideos.add(_video);
+                
+                _listaVideos = _listaVideos+_resultSet.getString("vid_id")+":"
+                        + _resultSet.getString("vid_nombre")+":"+
+                        _resultSet.getString("vid_tamano")+"@";
+                System.out.println(_listaVideos);
                 
             }
             

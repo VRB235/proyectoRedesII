@@ -17,8 +17,11 @@ public class Cliente {
     public static void main(String[] args) {
         // TODO code application logic here
         
+        
         ClienteConfiguracion _clienteConfiguracion = new ClienteConfiguracion();
         _clienteConfiguracion.setVisible(true);
+        
+        
         
     }
     

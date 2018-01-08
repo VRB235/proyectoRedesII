@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  *
  * @author Leonardo
  */
-public class ConexionServidor extends Thread {
+public class ConexionServidor {
     Socket _socket;
     String _ip;
     int _puerto;
@@ -28,7 +28,7 @@ public class ConexionServidor extends Thread {
     DataOutputStream _dos;
     String _comando;
     ManejadorOrden _manejadorOrden;
-    public ArrayList<String> _respuesta;
+    String _respuesta = "";
     
     /**
      * Constrcutor de la Conexion al Servidor
@@ -43,59 +43,95 @@ public class ConexionServidor extends Thread {
         this._manejadorOrden = new ManejadorOrden();
         this._ipCliente = ipCliente;
         this._puertoCliente = puertoCliente;
-        _respuesta = new ArrayList<>();
     }
     
-    public ArrayList<String> obtenerRespuesta (){
+    public String obtenerVideos(){
         return _respuesta;
     }
     
     /**
      * Metodo para conectar y enviar los comandos al servidor
      */
-    @Override
-    public void run() {
-        
+    public void start() {
+
         try {
-            
-            if(_manejadorOrden.accion(_comando)!=null){
+            _socket = new Socket(this._ip, this._puerto);
+            DataInputStream _dataInputStream = new DataInputStream(_socket.getInputStream());
+            DataOutputStream _dataOutputStream = new DataOutputStream(_socket.getOutputStream());
+
+            if(this._comando.equals("dir")){
                 
-                _socket = new Socket(_ip, _puerto);
-                _dos = new DataOutputStream(_socket.getOutputStream());
-                _dis = new DataInputStream(_socket.getInputStream());
-            
-                if(!_manejadorOrden.accion(_comando).equals("0:exit"))
-                {
+                _dataOutputStream.writeUTF("1:dir");
+                this._respuesta = _dataInputStream.readUTF();
+
+                
+            }else{
+                if(_comando.toLowerCase().equals("videos_mas_descargados")){
                     
-                    _dos.writeUTF(_manejadorOrden.accion(_comando));
-                    String _nroVideosString = _dis.readUTF();
-                    int _numVideos = Integer.parseInt(_nroVideosString);
-                    System.out.println(_nroVideosString);
-                    String _video = "";
-                    
-                    for (int i = 0; i <= _numVideos; i++) {
-                        
-                        _respuesta.add(i, _video);
-                        
-                        //_video = _dis.readUTF();
-                        //_respuesta.add(i,_video);
-                        
-                    }
-                    
-                    
-                }else{
-                    
-                    desconectar();
+                    System.out.println("Videos Mas Descargados");
                     
                 }
-                
+                else
+                {
+                    if(_comando.toLowerCase().equals("clientes_mas_videos")){
+                        
+                        System.out.println("Clientes Mas Videos");
+                        
+                    }
+                    else
+                    {
+                        String [] _comandoSplit = _comando.split(" ");
+                        if(_comandoSplit[0].toLowerCase().equals("insc")){
+                            
+                            _dataOutputStream.writeUTF("2:"+_comandoSplit[1]+":"
+                                    +_comandoSplit[2]+":"+_comandoSplit[3]);
+                            _respuesta = _dis.readUTF();
+                            
+                            System.out.println(_respuesta);
+
+                        }
+                        else
+                        {
+                            if(_comandoSplit[0].toLowerCase().equals("video")){
+                                
+                                _dataOutputStream.writeUTF("3:"+_comandoSplit[1]
+                                        +":"+_comandoSplit[2]+":"+_comandoSplit[3]);
+                                _respuesta = _dis.readUTF();
+                                
+                                System.out.println(_respuesta);
+                                
+                            }
+                            else{
+                                if(_comandoSplit[0].toLowerCase().equals("descargar")){
+                                    _dataOutputStream.writeUTF("4:"+_comandoSplit[1]);
+                                    _respuesta = _dis.readUTF();
+                                
+                                    System.out.println(_respuesta);
+                                }
+                            }
+                        }
+                        
+                    }
+                }
             }
             
+             _dataInputStream.close();
+             _dataOutputStream.close();
+             _socket.close();
+            
+  
         } catch (IOException ex) {
             
-            System.out.println("Error con los Sockets "+ex.getMessage());
+            System.out.println("Error al crear los stream de entradas y salidad: "
+                    + ex.getMessage());
+            
+        }catch(Exception e){
+            
+            System.out.println(e.getMessage());
             
         }
+                
+            
         
     }
     

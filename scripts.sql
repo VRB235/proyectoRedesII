@@ -2,7 +2,7 @@ create database proyredes2;
 
 create table cliente(
 	cli_id serial,
-	cli_nombre character varying,
+	cli_nombre character varying unique,
 	cli_puerto integer,
 	cli_ip character varying,
 	cli_num_descargas integer,

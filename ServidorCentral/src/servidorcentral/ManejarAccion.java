@@ -184,7 +184,7 @@ public class ManejarAccion {
      */
     public String accionDescargar(String id){
         
-        Video _video = null;
+        Video _video = new Video();
         
         try {
             
@@ -196,7 +196,6 @@ public class ManejarAccion {
             
             while(_resultSet.next()){
                 
-                _video = new Video();
                 _video.setNombre(_resultSet.getString("vid_nombre"));
                 _video.setRuta(_resultSet.getString("vid_ruta"));
                 _video.setTamaño(_resultSet.getString("vid_tamano"));
@@ -207,6 +206,13 @@ public class ManejarAccion {
             }
             
             System.out.println("ENVIADNO ARCHIVO "+_video.getNombre());
+            
+            String _respuesta = _video.getNombre()+":"+_video.getRuta()+":"+_video.getTamaño()+
+                    devolverInfoUsuario(String.valueOf(_video.getDueño()));
+            
+            System.out.println(_respuesta);
+            
+            return _respuesta;
             /*
             
             ENVIAR ARCHIVO

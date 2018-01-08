@@ -157,6 +157,11 @@ public class Consola extends javax.swing.JFrame {
                                 _conexionServidor.start();
                                 
                             }
+                            else{
+                                if(_comandoSplit[0].toLowerCase().equals("descargar")){
+                                    _conexionServidor.start();
+                                }
+                            }
                             
                         }
                         

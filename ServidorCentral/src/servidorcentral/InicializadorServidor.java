@@ -53,8 +53,9 @@ public class InicializadorServidor {
         try {
             
             
-            while(true){
+            
                 ServerSocket _serverSocket = new ServerSocket(1234);
+                while(true){
             System.out.println("Esperando conexion...");
             _socket = _serverSocket.accept();
             System.out.println("Cliente aceptado: "+_socket.getInetAddress());
@@ -83,6 +84,12 @@ public class InicializadorServidor {
                                 ManejadorOrden _mo = new ManejadorOrden(_peticion);
                                 _mo.accion();
                                 _dataOutputStream.writeUTF("INSERTADO");
+                            }else{
+                                if(_peticionSplit[0].equals("4")){
+                                    System.out.println("Descargar");
+                                    ManejadorOrden _mo = new ManejadorOrden(_peticion);
+                                    _dataOutputStream.writeUTF(_mo.accion());
+                                }
                             }
                         }
                     }  

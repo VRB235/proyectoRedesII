@@ -54,6 +54,7 @@ public class Consola extends javax.swing.JFrame {
         jTextField_comando = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Consola Cliente");
 
         jList_comandos.setEnabled(false);
         jScrollPane1.setViewportView(jList_comandos);
@@ -184,10 +185,8 @@ public class Consola extends javax.swing.JFrame {
                             _listModel.addElement(_conexionServidor.obtenerRespuesta());
                             jList_comandos.setModel(_listModel);
                             
-                            IniciarServidor _IniciarServidor = 
-                                    new  IniciarServidor(Integer.valueOf(
-                                            _comandoSplit[3]));
-                            _IniciarServidor.start();
+                            IniciarServidor iniS = new IniciarServidor(Integer.valueOf(_comandoSplit[3]));
+                            iniS.start();
                             
                         }
                         else{
@@ -204,6 +203,9 @@ public class Consola extends javax.swing.JFrame {
                                     _conexionServidor.start();
                                     _listModel.addElement(_conexionServidor.obtenerRespuesta());
                                     jList_comandos.setModel(_listModel);
+                                    
+                                    IniciarDescarga iniD = new IniciarDescarga(_conexionServidor.obtenerRespuesta());
+                                    iniD.start();
                                 }
                                 else{
                                     if(_comando.toLowerCase().equals("exit"))

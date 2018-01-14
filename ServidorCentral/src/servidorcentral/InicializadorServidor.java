@@ -60,7 +60,7 @@ public class InicializadorServidor extends Thread {
             
             
             
-                ServerSocket _serverSocket = new ServerSocket(1234);
+                ServerSocket _serverSocket = new ServerSocket(this._puerto);
                 while(true){
             System.out.println("Esperando conexion...");
             _socket = _serverSocket.accept();

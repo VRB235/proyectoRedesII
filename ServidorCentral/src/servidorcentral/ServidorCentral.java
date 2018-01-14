@@ -25,7 +25,7 @@ public class ServidorCentral {
         
  
         
-        InicializadorServidor i = new InicializadorServidor("127.0.0.1", 1324,ini);
+        InicializadorServidor i = new InicializadorServidor("127.0.0.1", 1234,ini);
         i.start();
         
     }

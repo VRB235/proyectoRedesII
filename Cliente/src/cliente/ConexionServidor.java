@@ -92,6 +92,8 @@ public class ConexionServidor {
                             _respuesta = _dataInputStream.readUTF();
                             
                             System.out.println(_respuesta);
+                            
+                            
 
                         }
                         else
@@ -110,6 +112,8 @@ public class ConexionServidor {
                                     _dataOutputStream.writeUTF("4:"+_comandoSplit[1]);
                                     _respuesta = _dataInputStream.readUTF();
                                     System.out.println(_respuesta);
+                                    
+                                    
                                     
 
                                 }

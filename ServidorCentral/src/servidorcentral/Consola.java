@@ -40,6 +40,7 @@ public class Consola extends javax.swing.JFrame {
         jTextField_comando = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Consola Servidor");
 
         jList_comandos.setEnabled(false);
         jScrollPane1.setViewportView(jList_comandos);

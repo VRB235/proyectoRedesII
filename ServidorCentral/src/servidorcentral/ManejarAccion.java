@@ -326,12 +326,14 @@ public class ManejarAccion {
                         + "vid_ruta, vid_tamano, vid_num_descargados, fk_usuario) values ("
                         + "'"+nombre+"','"+ruta+"','"+tamano+"',0,(select cli_id"
                         + " from cliente where cli_nombre='"+nombreCliente+"'))";
+                System.out.println(_query);
                 Statement _st = _conn.createStatement();
                 _resultSet = _st.executeQuery(_query);
+                System.out.println(_query);
                 return "REGISTRADO";
                 
             } catch (Exception e) {
-                
+                System.out.println(e.getMessage());
                 return "NO REGISTRADO";
                 
             }
@@ -381,12 +383,19 @@ public class ManejarAccion {
         
             try {
                 
+                if(obtenerId(nombre)==0){
+                
                 _query = "insert into cliente (cli_nombre, "
                         + "cli_puerto, cli_ip, cli_num_descargas) values ("
                         + "'"+nombre+"',"+puerto+",'"+ip+"',0)";
                 Statement _st = _conn.createStatement();
                 _resultSet = _st.executeQuery(_query);
+                return "INSERTADO";}else{
+                     _query = "update cliente set cli_puerto="+puerto+", cli_ip='"+ip+"'";
+                Statement _st = _conn.createStatement();
+                _resultSet = _st.executeQuery(_query);
                 return "INSERTADO";
+                }
                 
             } catch (SQLException e) {
                 
@@ -407,7 +416,7 @@ public class ManejarAccion {
         
         try {
             
-            _query = "select vid_id, vid_nombre, vid_tamano from video";
+            _query = "select vid_id, vid_nombre, vid_tamano from video order by vid_id asc";
             Statement _st = _conn.createStatement();
             _resultSet = _st.executeQuery(_query);
             while(_resultSet.next()){
